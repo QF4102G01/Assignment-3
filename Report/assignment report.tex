@@ -64,7 +64,62 @@
 \newpage
 
 \section{Transformed Black-Scholes PDE model}
+Consider the \textbf{transformed} Black-Scholes PDE model:
+\begin{equation*}
+  \begin{cases}
+    \frac{\partial u}{\partial t} + \frac{\sigma ^ {2}}{2}\frac{\partial ^ {2} u}{\partial x^{2}} + (r - q - \frac{\sigma^{2}}{2})\frac{\partial u}{\partial x} -ru = 0, & x \in (-\infty, \infty), t \in [0, T) \\
+    u(x, T) = \varphi(x), & 
+  \end{cases}
+\end{equation*}
 
+\subsection{Derivation of fully implicit scheme}
+Evaluate the partial derivatives at $(x_{n}^{i}, t_{n})$ where $t_{n} = n\Delta t, x_{n}^{i} = i\Delta x, n \in [0, \frac{T}{\Delta t}), i \in [-x_{max}, x_{max}]$
+$$ \text{Use the forward time finite difference formulae : } \left. \frac{\partial u}{\partial t} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n+1}^{i} - u_{n}^{i}}{\Delta t} + O(\Delta t)$$
+$$ \text{Use the centred space finite difference formulae : } \left. \frac{\partial u}{\partial x} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n}^{i+1} - u_{n}^{i-1}}{2\Delta x} + O[(\Delta x)^{2}]$$
+$$ \text{Use the centred space finite difference formulae : } \left. \frac{\partial^{2} u}{\partial x^{2}} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n}^{i+1} - 2u_{n}^{i} + u_{n}^{i-1}}{(\Delta x)^{2}} + O[(\Delta x)^{2}]$$
+
+The finite difference equation is hence : 
+$$ \frac{u_{n+1}^{i} - u_{n}^{i}}{\Delta t} + O(\Delta t) + \frac{\sigma ^ {2}}{2}\frac{u_{n}^{i+1} - u_{n}^{i-1}}{2\Delta x} + (r - q - \frac{\sigma^{2}}{2})\frac{u_{n}^{i+1} - u_{n}^{i-1}}{2\Delta x} + O[(\Delta x)^{2}] -ru_{n}^{i} = 0$$
+$$ \frac{u_{n+1}^{i} - u_{n}^{i}}{\Delta t} + O(\Delta t) + O[(\Delta x)^{2}] = -\frac{\sigma ^ {2}}{2}\frac{u_{n}^{i+1} - u_{n}^{i-1}}{2\Delta x} - (r - q - \frac{\sigma^{2}}{2})\frac{u_{n}^{i+1} + u_{n}^{i-1}}{2\Delta x} + ru_{n}^{i}$$
+$$ \frac{U_{n+1}^{i} - U_{n}^{i}}{\Delta t} = rU_{n}^{i} - \frac{\sigma ^ {2}}{2}\frac{U_{n}^{i+1} - U_{n}^{i-1}}{2\Delta x} - (r - q - \frac{\sigma^{2}}{2})\frac{U_{n}^{i+1} + U_{n}^{i-1}}{2\Delta x}$$
+$$ U_{n+1}^{i} = U_{n}^{i} + \Delta t[rU_{n}^{i} - \frac{\sigma ^ {2}}{2}\frac{U_{n}^{i+1} - U_{n}^{i-1}}{2\Delta x} - (r - q - \frac{\sigma^{2}}{2})\frac{U_{n}^{i+1} + U_{n}^{i-1}}{2\Delta x}]$$
+$$ U_{n+1}^{i} = U_{n}^{i} (1+ r \Delta t) - \frac{\Delta t}{2\Delta x}[\frac{\sigma ^ {2}}{2}(U_{n}^{i+1} - U_{n}^{i-1}) + (r - q - \frac{\sigma^{2}}{2})(U_{n}^{i+1} + U_{n}^{i-1})]$$
+$$ U_{n+1}^{i} = U_{n}^{i} (1+ r \Delta t) - U_{n}^{i+1}\frac{\Delta t(r-q)}{2\Delta x} + U_{n}^{i-1}\frac{\Delta t(r - q - \sigma^{2})}{2\Delta x}, \forall -(I-1) \le i \le (I-1)$$
+$$ U_{n+1}^{i} = aU_{n}^{i-1}+ bU_{n}^{i} + cU_{n}^{i+1} , \forall -(I-1) \le i \le (I-1)$$
+for $a = \frac{\Delta t(r - q - \sigma^{2})}{2\Delta x}, b = 1+ r \Delta t, c = \frac{\Delta t(r-q)}{2\Delta x}$
+With the values of $U_{n}^{I}$ and $U_{n}^{I}$ specified, we can express the FDE into matrix form.
+\[
+\begin{bmatrix}
+    x_{11} & x_{12} & x_{13} & \dots  & x_{1n} \\
+    x_{21} & x_{22} & x_{23} & \dots  & x_{2n} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    x_{d1} & x_{d2} & x_{d3} & \dots  & x_{dn}
+\end{bmatrix}
+\begin{bmatrix}
+    U_{n}^{-I+1}\\
+    U_{n}^{-I+2}\\
+    U_{n}^{-I+3}\\
+    \hdotsfor{1} \\
+    U_{n}^{I+1}\\
+    U_{n}^{I}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    U_{n+1}^{-I+1}\\
+    U_{n+1}^{-I+2}\\
+    U_{n+1}^{-I+3}\\
+    \hdotsfor{1} \\
+    U_{n+1}^{I-1}\\
+    U_{n+1}^{I}
+\end{bmatrix}
++
+\begin{bmatrix}
+    U_{n}^{-I}\\
+    0\\
+    \hdotsfor{1} \\
+    U_{n}^{I}
+\end{bmatrix}
+\]
 
 \section{Valuation of digital call option}
 
