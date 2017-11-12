@@ -84,73 +84,87 @@ $$ \frac{u_{n+1}^{i} - u_{n}^{i}}{\Delta t} + O(\Delta t) + O[(\Delta x)^{2}] = 
 $$ \frac{U_{n+1}^{i} - U_{n}^{i}}{\Delta t} = rU_{n}^{i} - \frac{\sigma ^ {2}}{2}\frac{U_{n}^{i+1} - U_{n}^{i-1}}{2\Delta x} - (r - q - \frac{\sigma^{2}}{2})\frac{U_{n}^{i+1} + U_{n}^{i-1}}{2\Delta x}$$
 $$ U_{n+1}^{i} = U_{n}^{i} + \Delta t[rU_{n}^{i} - \frac{\sigma ^ {2}}{2}\frac{U_{n}^{i+1} - U_{n}^{i-1}}{2\Delta x} - (r - q - \frac{\sigma^{2}}{2})\frac{U_{n}^{i+1} + U_{n}^{i-1}}{2\Delta x}]$$
 $$ U_{n+1}^{i} = U_{n}^{i} (1+ r \Delta t) - \frac{\Delta t}{2\Delta x}[\frac{\sigma ^ {2}}{2}(U_{n}^{i+1} - U_{n}^{i-1}) + (r - q - \frac{\sigma^{2}}{2})(U_{n}^{i+1} + U_{n}^{i-1})]$$
-$$ U_{n+1}^{i} = U_{n}^{i} (1+ r \Delta t) - U_{n}^{i+1}\frac{\Delta t(r-q)}{2\Delta x} + U_{n}^{i-1}\frac{\Delta t(r - q - \sigma^{2})}{2\Delta x}, \forall -(I-1) \le i \le (I-1)$$
-$$ U_{n+1}^{i} = aU_{n}^{i-1}+ bU_{n}^{i} + cU_{n}^{i+1} , \forall -(I-1) \le i \le (I-1)$$
-for $a = \frac{\Delta t(r - q - \sigma^{2})}{2\Delta x}, b = 1+ r \Delta t, c = \frac{\Delta t(r-q)}{2\Delta x}$
-With the values of $U_{n}^{I}$ and $U_{n}^{I}$ specified, we can express the FDE into matrix form.
+$$ U_{n+1}^{i} = U_{n}^{i} (1+ r \Delta t) - U_{n}^{i+1}\frac{\Delta t(r-q)}{2\Delta x} + U_{n}^{i-1}\frac{\Delta t(r - q - \sigma^{2})}{2\Delta x}, \forall I_{min}+1 \le i \le I_{max}-1$$
+$$ U_{n+1}^{i} = aU_{n}^{i-1}+ bU_{n}^{i} + cU_{n}^{i+1} , \forall I_{min}+1 \le i \le I_{max}-1$$
+for $a = \frac{\Delta t(r - q - \sigma^{2})}{2\Delta x}, b = 1+ r \Delta t, c = \frac{\Delta t(r-q)}{2\Delta x}$\\[3mm]
+The boundary conditions are as follows:\\
+$$U_{n}^{I_{max}} = e^{-rn \Delta t}(\exp(I_{max}\Delta x) - X) \text{, when the underlying value is very large at} \exp(I_{max}\Delta x) \text{, with strike price at } X$$
+$$U_{n}^{I_{min}} = 0\text{, when the underlying value is very small at} \exp(I_{min}\Delta x)$$\\[3mm]
+With the values of $U_{n}^{I_{min}}$ and $U_{n}^{I_{max}}$ specified, we can express the FDE into matrix form.
 \[
 \begin{bmatrix}
-    x_{11} & x_{12} & x_{13} & \dots  & x_{1n} \\
-    x_{21} & x_{22} & x_{23} & \dots  & x_{2n} \\
-    \vdots & \vdots & \vdots & \ddots & \vdots \\
-    x_{d1} & x_{d2} & x_{d3} & \dots  & x_{dn}
+    b & c & \dots & \dots  & \dots & \dots & \dots\\
+    a & b & c & \dots  & \dots & \dots & \dots\\
+    \dots & a & b & c & \dots & \dots & \dots\\
+    \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\
+    \dots & \dots & \dots & a & b & c & \dots\\
+    \dots & \dots & \dots & \dots & a & b & c\\
+    \dots & \dots & \dots & \dots & \dots & a & b\\
 \end{bmatrix}
 \begin{bmatrix}
-    U_{n}^{-I+1}\\
-    U_{n}^{-I+2}\\
-    U_{n}^{-I+3}\\
-    \hdotsfor{1} \\
-    U_{n}^{I+1}\\
-    U_{n}^{I}
+    U_{n}^{I_{min}+1}\\
+    U_{n}^{I_{min}+2}\\
+    U_{n}^{I_{min}+3}\\
+    \dots \\
+    U_{n}^{I_{max}-3}\\
+    U_{n}^{I_{max}-2}\\
+    U_{n}^{I_{max}-1}
 \end{bmatrix}
 =
 \begin{bmatrix}
-    U_{n+1}^{-I+1}\\
-    U_{n+1}^{-I+2}\\
-    U_{n+1}^{-I+3}\\
-    \hdotsfor{1} \\
-    U_{n+1}^{I-1}\\
-    U_{n+1}^{I}
+    U_{n+1}^{I_{min}+1}\\
+    U_{n+1}^{I_{min}+2}\\
+    U_{n+1}^{I_{min}+3}\\
+    \dots \\
+    U_{n+1}^{I_{max}-3}\\
+    U_{n+1}^{I_{max}-2}\\
+    U_{n+1}^{I_{max}-1}
 \end{bmatrix}
 +
 \begin{bmatrix}
-    U_{n}^{-I}\\
+    -aU_{n}^{I_{min}}\\
     0\\
-    \hdotsfor{1} \\
-    U_{n}^{I}
+    \vdots \\
+    \vdots \\
+    0\\
+    -cU_{n}^{I_{max}}
 \end{bmatrix}
 \]
+
+More concisely, we can name the tridiagonal matrix $A$ and the right hand side vector $F$ to express the FDE in this form: $AU_{n} = U_{n+1} + F$, $U_{n} = A^{-1}(U_{n+1} + F)$
+
+\subsection{Finite Difference Scheme Algorithm on fully implicit scheme}
+
+\begin{algorithm}[H]
+\setstretch{1.5}
+	\KwData{$S_0$, $X$, $r$, $T$, $\sigma$, $I$, $N$, $x_{max}$}
+	\KwResult{$c_{\text{IDS}}$, Option Premium}
+	$\Delta t = \dfrac{T}{N}$, 
+	$\Delta x = \dfrac{x_{max}}{I}$, $I_{max} = I$, $I_{min} = -I$\;
+	$a = \dfrac{\Delta t(r - q - \sigma^{2})}{2\Delta x}$\;
+	$b = 1+ r \Delta t$\;
+	$c = \dfrac{\Delta t(r-q)}{2\Delta x}$\;
+	
+	\For {$i = -I+1, -I+2, \dots, I-2, I-1 $} {
+		$U_{N}^{i} = max(\exp(i\Delta x) - X, 0)$\;
+	}
+	
+	Generate a tridiagonal matrix $A$ of dimension $(2I-1) * (2I-1)$, \\
+	with $A_{i}{i} = b, \forall i = 1, 2, \dots 2I-1$,$A_{i}{i-1} = b, \forall i = 2, \dots 2I-1$, $A_{i}{i+1} = b, \forall i = 1, 2, \dots 2I-2$.\\
+	
+	\For {$j = N-1, N-2, \dots , 0$} {
+		Generate a vector $F$ of length $(2I-1)$, with $F_{2I-1} = c\exp(-rn \Delta t)(S_{max} - X)$\;
+		$U_{j} = A^{-1} (U_{j+1} + F)$\;
+	}
+	$i_0 = round \left (\dfrac{\ln{S_0}}{\Delta x} \right )$\;
+	$c_{\text{IDS}} = U_0^{i_0}$\;
+	
+\end{algorithm}
+
 
 \section{Valuation of digital call option}
 
 \subsection{Algo}
-
-\begin{algorithm}[H]
-\setstretch{1.5}
-	\KwData{$S_0$, $X$, $r$, $T$, $\sigma$, $N$, $\Delta s$}
-	\KwResult{$c_{\text{EDS III}}$, Option Premium}
-	$S_{\max} = 4X$, 
-	$\Delta t = \dfrac{T}{N}$, 
-	$I = round \left ( \dfrac{S_{\max}}{\Delta s} \right)$\;
-	
-	\For {$j = 0, 1, \dots , N$} {
-		$V^{0}_{j} = (S_{\max} - X)e^{-r(N-j) \Delta t}$\;
-		$V^{I}_{j} = 0$\;
-	}
-	
-	\For {$i = 0, 1, \dots , I$} {
-		$V^{i}_{N} = \max(X - i\Delta s, 0)$\;
-		$a_i = \dfrac{1}{1 + r \Delta t} \left [\dfrac{1}{2} \sigma^2 i^2 \Delta t \right ]$\;
-		$b_i = \dfrac{1}{1 + r \Delta t} \left (1 - \sigma^2 i^2 \Delta t - (r-q) i \Delta t \right )$\;
-		$c_i = \dfrac{1}{1 + r \Delta t} \left [ \dfrac{1}{2} ( \sigma^2 i^2 + (r-q)i) \Delta t \right ]$\;
-		\For {$n = N-1, N-2, \dots, 0$} {
-			$V_n^i = a_i V^{i - 1}_{n+1} + b_i V^i_{n+1} + c_i V^{i+1}_{n+1}$ \;
-		}
-	}
-	$i_0 = round \left (\dfrac{S_0}{\Delta s} \right )$\;
-	$c_{\text{EDS III}} = V_0^{i_0}$\;
-	
-\end{algorithm}
 
 
 
