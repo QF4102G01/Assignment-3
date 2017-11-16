@@ -73,7 +73,7 @@ Consider the \textbf{transformed} Black-Scholes PDE model:
 \end{equation*}
 
 \subsection{Derivation of fully implicit scheme}
-Evaluate the partial derivatives at $(x_{n}^{i}, t_{n})$ where $t_{n} = n\Delta t, x_{n}^{i} = i\Delta x, n \in [0, \frac{T}{\Delta t}), i \in [-x_{max}, x_{max}]$
+Evaluate partial derivatives at $(x_{n}^{i}, t_{n})$ where $t_{n} = n\Delta t, x_{n}^{i} = i\Delta x, n \in [0, \frac{T}{\Delta t}), i \in [-x_{max}, x_{max}], I_{max} = \frac{x_{max}}{\Delta x}$
 $$ \text{Use the forward time finite difference formulae : } \left. \frac{\partial u}{\partial t} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n+1}^{i} - u_{n}^{i}}{\Delta t} + O(\Delta t)$$
 $$ \text{Use the centred space finite difference formulae : } \left. \frac{\partial u}{\partial x} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n}^{i+1} - u_{n}^{i-1}}{2\Delta x} + O[(\Delta x)^{2}]$$
 $$ \text{Use the centred space finite difference formulae : } \left. \frac{\partial^{2} u}{\partial x^{2}} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n}^{i+1} - 2u_{n}^{i} + u_{n}^{i-1}}{(\Delta x)^{2}} + O[(\Delta x)^{2}]$$
@@ -90,8 +90,9 @@ $$ U_{n+1}^{i} = U_{n}^{i-1}[\frac{\Delta t(r - q - \frac{\sigma^{2}}{2})}{2\Del
 $$ U_{n+1}^{i} = aU_{n}^{i-1}+ bU_{n}^{i} + cU_{n}^{i+1} , \forall I_{min}+1 \le i \le I_{max}-1$$
 \hspace*{100pt} where $a = \gamma-\frac{\alpha}{2}, b = \beta + \alpha, c = -\gamma-\frac{\alpha}{2}, \alpha = \frac{\sigma^{2}\Delta t}{(\Delta x)^{2}}, \beta = 1+ r \Delta t, \gamma = \frac{\Delta t(r - q - \frac{\sigma^{2}}{2})}{2\Delta x}$\\[3mm]
 The boundary conditions are as follows:\\
-$$U_{n}^{I_{max}} = e^{-rn \Delta t}(\exp(I_{max}\Delta x) - X) \text{, when the underlying value is very large at} \exp(I_{max}\Delta x) \text{, with strike price at } X$$
-$$U_{n}^{I_{min}} = 0\text{, when the underlying value is very small at} \exp(I_{min}\Delta x)$$\\[3mm]
+$$U_{n}^{I_{max}} = e^{-q(T-n \Delta t)}\exp(I_{max}\Delta x) - e^{-r(T-n \Delta t)}X \text{, when the underlying value is very large at} \exp(I_{max}\Delta x)$$
+$$U_{n}^{I_{min}} = 0\text{, when the underlying value is very small at} \exp(I_{min}\Delta x)$$
+\newpage
 With the values of $U_{n}^{I_{min}}$ and $U_{n}^{I_{max}}$ specified, we can express the FDE into matrix form.
 \[
 \begin{bmatrix}
