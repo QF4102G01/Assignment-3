@@ -10,8 +10,8 @@ function optionValue = MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
     ST = price_augmented .* exp(sqrt(T) .* sigma_augmented .* correlatedRand);
 
     max_prices = max(ST, [], 2);
-    optionValues = (max_prices > X) * exp(-r * T);
+    optionValues = (max_prices > X);
     
-    optionValue = mean(optionValues);
+    optionValue = mean(optionValues) * exp(-r * T);
     
 end

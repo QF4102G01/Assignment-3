@@ -22,8 +22,17 @@ plot(Is, fd_ids_results)
 epsilon = 10 ^ (-6);
 omega = 1.3;
 
-for I = Is
-    fd_ids_results(Is == I) = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega);
+Is2 = 100 : 25 : 1500;
+fd_ids_results2 = 1 : (1500 - 100) / 25 + 1;
+
+for I = Is2
+    fd_ids_results2(Is2 == I) = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega);
 end
 
+plot(Is2, fd_ids_results2)
+
 FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega)
+
+for I = Is
+    FD_ids_call_trans_psor(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega)
+end

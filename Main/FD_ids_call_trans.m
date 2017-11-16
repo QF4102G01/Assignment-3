@@ -14,7 +14,7 @@ function OptVal = FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
 	Ainverse = inv(A);
 	
 	for j = N-1 : -1 : 0
-		U(2*I-1, 1) = U(2*I-1, 1) - c * exp(-r*(N-j)*deltaT)*(exp(xmax) - X);
+		U(2*I-1, 1) = U(2*I-1, 1) - c * (exp(-q*(N-j)*deltaT) * exp(xmax) - exp(-r*(N-j)*deltaT)*X);
         U = Ainverse * U;
 	end
 	
