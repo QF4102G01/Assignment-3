@@ -134,7 +134,7 @@ With the values of $U_{n}^{I_{min}}$ and $U_{n}^{I_{max}}$ specified, we can exp
 \end{bmatrix}
 \]
 
-More concisely, we can name the tridiagonal matrix $A$ and the right hand side vector $F$ to express the FDE in this form: $AU_{n} = U_{n+1} + F$, $U_{n} = A^{-1}(U_{n+1} + F)$
+More concisely, we can name the tridiagonal matrix $A$ and the right hand side vector $F$ to express the FDE in this form: $AU_{n} = U_{n+1} + F \to U_{n} = A^{-1}(U_{n+1} + F)$
 
 \subsection{Finite Difference Scheme Algorithm on fully implicit scheme}
 
@@ -156,7 +156,7 @@ More concisely, we can name the tridiagonal matrix $A$ and the right hand side v
 	}
 	
 	Generate a tridiagonal matrix $A$ of dimension $(2I-1) * (2I-1)$, \\
-	with $A_{i}{i} = b, \forall i = 1, 2, \dots 2I-1$,$A_{i}{i-1} = b, \forall i = 2, \dots 2I-1$, $A_{i}{i+1} = b, \forall i = 1, 2, \dots 2I-2$.\\
+	with $A_{i,i} = b\, \forall i = 1, 2, \dots 2I-1$,$A_{i,i-1} = b\, \forall i = 2, \dots 2I-1$, $A_{i,i+1} = b\, \forall i = 1, 2, \dots 2I-2$.\\
 	
 	\For {$j = N-1, N-2, \dots , 0$} {
 		Generate a vector $F$ of length $(2I-1)$, with $F_{2I-1} = c\exp(-r(T-j \Delta t))(S_{max} - X)$, $F_{i} = 0$ otherwise\;
