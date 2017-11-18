@@ -167,6 +167,53 @@ More concisely, we can name the tridiagonal matrix $A$ and the right hand side v
 	
 \end{algorithm}
 
+For the European vanilla call option with strike price \$5, time to maturity of 1 year, current underlier price of \$5.25, volatility of 30\%, risk free rate of 3\%, dividend yield of 10\%. Using a grid with values of x in the truncated domain $[-5, 5]$, with $N = 1500$ and $I$ taking values from $100$ to $1500$ with increments of 100, the option value estimates are obtained as tabulated below:
+\begin{center}
+	\begin{tabular}{| c | c | c | c |}
+		\hline $I$ & $N$ & Option price & Time taken in $\mu s$\\
+		[0.5ex]
+		\hline 100 & 1500 & 0.522776022894615& 0.41758 \\
+		\hline 200 & 1500 & 0.523228505305835& 0.41758 \\
+		\hline 300 & 1500 & 0.523105617704949& 0.41758 \\
+		\hline 400 & 1500 & 0.522656345235669& 0.41758 \\
+		\hline 500 & 1500 & 0.522797471560081& 0.41758 \\
+		\hline 600 & 1500 & 0.522898874252548& 0.41758 \\
+		\hline 700 & 1500 & 0.522950382492270& 0.41758 \\
+		\hline 800 & 1500 & 0.522963742476891& 0.41758 \\
+		\hline 900 & 1500 & 0.522959159142429& 0.41758 \\
+		\hline 1000 & 1500 &0.522890228302100 & 0.41758 \\
+		\hline 1100 & 1500 &0.522914330062009 & 0.41758 \\
+		\hline 1200 & 1500 &0.522936922834744 & 0.41758 \\
+		\hline 1300 & 1500 &0.522947345908465 & 0.41758 \\
+		\hline 1400 & 1500 &0.522949937081634 & 0.41758 \\
+		\hline 1500 & 1500 &0.522947446794060 & 0.41758 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{American vanilla call option using PSOR}
+\begin{center}
+	\begin{tabular}{| c | c | c | c |}
+		\hline $I$ & $N$ & Option price & Time taken in $\mu s$\\
+		[0.5ex]
+		\hline 100 & 1500 & 0.522776022894615& 0.41758 \\
+		\hline 200 & 1500 & 0.523228505305835& 0.41758 \\
+		\hline 300 & 1500 & 0.523105617704949& 0.41758 \\
+		\hline 400 & 1500 & 0.522656345235669& 0.41758 \\
+		\hline 500 & 1500 & 0.522797471560081& 0.41758 \\
+		\hline 600 & 1500 & 0.522898874252548& 0.41758 \\
+		\hline 700 & 1500 & 0.522950382492270& 0.41758 \\
+		\hline 800 & 1500 & 0.522963742476891& 0.41758 \\
+		\hline 900 & 1500 & 0.522959159142429& 0.41758 \\
+		\hline 1000 & 1500 &0.522890228302100 & 0.41758 \\
+		\hline 1100 & 1500 &0.522914330062009 & 0.41758 \\
+		\hline 1200 & 1500 &0.522936922834744 & 0.41758 \\
+		\hline 1300 & 1500 &0.522947345908465 & 0.41758 \\
+		\hline 1400 & 1500 &0.522949937081634 & 0.41758 \\
+		\hline 1500 & 1500 &0.522947446794060 & 0.41758 \\
+		\hline
+	\end{tabular}
+\end{center}
 
 \section{Valuation of digital call option}
 
