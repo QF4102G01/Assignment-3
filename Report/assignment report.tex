@@ -169,24 +169,24 @@ More concisely, we can name the tridiagonal matrix $A$ and the right hand side v
 
 For the European vanilla call option with strike price \$5, time to maturity of 1 year, current underlier price of \$5.25, volatility of 30\%, risk free rate of 3\%, dividend yield of 10\%. Using a grid with values of x in the truncated domain $[-5, 5]$, with $N = 1500$ and $I$ taking values from $100$ to $1500$ with increments of 100, the option value estimates are obtained as tabulated below:
 \begin{center}
-	\begin{tabular}{| c | c | c | c |}
-		\hline $I$ & $N$ & Option price & Time taken in $\mu s$\\
+	\begin{tabular}{| c | c | c |}
+		\hline $I$ & $N$ & Option price\\
 		[0.5ex]
-		\hline 100 & 1500 & 0.522776022894615& 0.41758 \\
-		\hline 200 & 1500 & 0.523228505305835& 0.41758 \\
-		\hline 300 & 1500 & 0.523105617704949& 0.41758 \\
-		\hline 400 & 1500 & 0.522656345235669& 0.41758 \\
-		\hline 500 & 1500 & 0.522797471560081& 0.41758 \\
-		\hline 600 & 1500 & 0.522898874252548& 0.41758 \\
-		\hline 700 & 1500 & 0.522950382492270& 0.41758 \\
-		\hline 800 & 1500 & 0.522963742476891& 0.41758 \\
-		\hline 900 & 1500 & 0.522959159142429& 0.41758 \\
-		\hline 1000 & 1500 &0.522890228302100 & 0.41758 \\
-		\hline 1100 & 1500 &0.522914330062009 & 0.41758 \\
-		\hline 1200 & 1500 &0.522936922834744 & 0.41758 \\
-		\hline 1300 & 1500 &0.522947345908465 & 0.41758 \\
-		\hline 1400 & 1500 &0.522949937081634 & 0.41758 \\
-		\hline 1500 & 1500 &0.522947446794060 & 0.41758 \\
+		\hline 100 & 1500 & 0.522776022894615  \\
+		\hline 200 & 1500 & 0.523228505305835  \\
+		\hline 300 & 1500 & 0.523105617704949  \\
+		\hline 400 & 1500 & 0.522656345235669  \\
+		\hline 500 & 1500 & 0.522797471560081  \\
+		\hline 600 & 1500 & 0.522898874252548  \\
+		\hline 700 & 1500 & 0.522950382492270  \\
+		\hline 800 & 1500 & 0.522963742476891  \\
+		\hline 900 & 1500 & 0.522959159142429  \\
+		\hline 1000 & 1500 & 0.522890228302100 \\
+		\hline 1100 & 1500 & 0.522914330062009 \\
+		\hline 1200 & 1500 & 0.522936922834744 \\
+		\hline 1300 & 1500 & 0.522947345908465 \\
+		\hline 1400 & 1500 & 0.522949937081634 \\
+		\hline 1500 & 1500 & 0.522947446794060 \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -212,24 +212,24 @@ From figure 2, it is obvious that the option value converges to the true value a
 For the American vanilla call option with same parameters as the above European vanilla call, we can use the projected SOR algorithm for the calculation of $U_{n}$ from $V_{n+1}$ with parameters $\epsilon = 1.0 * 10^{-6}, \omega = 1.3$.
 
 \begin{center}
-	\begin{tabular}{| c | c | c | c |}
-		\hline $I$ & $N$ & Option price & Time taken in $\mu s$\\
+	\begin{tabular}{| c | c | c |}
+		\hline $I$ & $N$ & Option price\\
 		[0.5ex]
-		\hline 100 & 1500 & 0.582849189993941& 0.41758 \\
-		\hline 200 & 1500 & 0.583505358758593& 0.41758 \\
-		\hline 300 & 1500 & 0.583457275858546& 0.41758 \\
-		\hline 400 & 1500 & 0.582944640173874& 0.41758 \\
-		\hline 500 & 1500 & 0.583166191075223& 0.41758 \\
-		\hline 600 & 1500 & 0.583290840686203& 0.41758 \\
-		\hline 700 & 1500 & 0.583345916640081& 0.41758 \\
-		\hline 800 & 1500 & 0.583358092446549& 0.41758 \\
-		\hline 900 & 1500 & 0.583351410333823& 0.41758 \\
-		\hline 1000 & 1500 &0.583260621906101 & 0.41758 \\
-		\hline 1100 & 1500 &0.583286109957217 & 0.41758 \\
-		\hline 1200 & 1500 &0.583301049237271 & 0.41758 \\
-		\hline 1300 & 1500 &0.583302179614822 & 0.41758 \\
-		\hline 1400 & 1500 &0.583294042928569 & 0.41758 \\
-		\hline 1500 & 1500 &0.583280020736888 & 0.41758 \\
+		\hline 100 & 1500 & 0.582849189993941 \\
+		\hline 200 & 1500 & 0.583505358758593 \\
+		\hline 300 & 1500 & 0.583457275858546 \\
+		\hline 400 & 1500 & 0.582944640173874 \\
+		\hline 500 & 1500 & 0.583166191075223 \\
+		\hline 600 & 1500 & 0.583290840686203 \\
+		\hline 700 & 1500 & 0.583345916640081 \\
+		\hline 800 & 1500 & 0.583358092446549 \\
+		\hline 900 & 1500 & 0.583351410333823 \\
+		\hline 1000 & 1500 &0.583260621906101 \\
+		\hline 1100 & 1500 &0.583286109957217 \\
+		\hline 1200 & 1500 &0.583301049237271 \\
+		\hline 1300 & 1500 &0.583302179614822 \\
+		\hline 1400 & 1500 &0.583294042928569 \\
+		\hline 1500 & 1500 &0.583280020736888 \\
 		\hline
 	\end{tabular}
 \end{center}
