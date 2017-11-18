@@ -191,7 +191,26 @@ For the European vanilla call option with strike price \$5, time to maturity of 
 	\end{tabular}
 \end{center}
 
+\begin{figure}[htbp!]
+	\centering
+	\includegraphics[scale=0.7]{smallPlot.jpg}
+	\caption{European vanilla call option value estimates against $I$ with increments of 100}
+\end{figure}
+
+Since the value obtained at $I = 100$ is already quite close to the true value, it may be difficult to observe the convergence in the diagram of $I$ going from $100$ to $1500$ with increments of $100$ (figure 1). Hence, we plotted the diagram of $I$ going from $100$ to $1500$ with increments of $20$ in order to investigate further.
+
+\begin{figure}[htbp!]
+	\centering
+	\includegraphics[scale=0.2]{largePlot.jpg}
+	\caption{European vanilla call option value estimates against $I$ with increments of 20}
+\end{figure}
+
+From figure 2, it is obvious that the option value converges to the true value at around $\$0.52294$ as the fluctations become smaller and smaller as $I$ increases.
+
 \subsection{American vanilla call option using PSOR}
+
+For the American vanilla call option with same parameters as the above European vanilla call, we can use the projected SOR algorithm for the calculation of $U_{n}$ from $V_{n+1}$ with parameters $\epsilon = 1.0 * 10^{-6}, \omega = 1.3$.
+
 \begin{center}
 	\begin{tabular}{| c | c | c | c |}
 		\hline $I$ & $N$ & Option price & Time taken in $\mu s$\\
@@ -214,6 +233,24 @@ For the European vanilla call option with strike price \$5, time to maturity of 
 		\hline
 	\end{tabular}
 \end{center}
+
+We have plotted the values estimated with $I$ going from $100$ to $1500$ with increments of $100$ in figure 3.
+
+\begin{figure}[htbp!]
+	\centering
+	\includegraphics[scale=0.2]{smallPlot2.jpg}
+	\caption{American vanilla call option value estimates against $I$ with increments of 100}
+\end{figure}
+
+Similar to the previous section, we plotted another diagram of $I$ going from $100$ to $1500$ with increments of $25$ in order to investigate further as figure 4.
+
+\begin{figure}[htbp!]
+	\centering
+	\includegraphics[scale=0.2]{largePlot2.jpg}
+	\caption{American vanilla call option value estimates against $I$ with increments of 25}
+\end{figure}
+
+From figure 4, it is obvious that the option value converges to the true value at around $\$0.5834$ as the fluctations become smaller and smaller as $I$ increases.
 
 \section{Valuation of digital call option}
 
