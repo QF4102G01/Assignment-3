@@ -274,9 +274,38 @@ Next up, we implemented the Monte Carlo simulation algorithm for estimating the 
 \setstretch{1.5}
 	\KwData{$S_0$, $X$, $r$, $q$, $T$, $\sigma$, $C$, $N$}
 	\KwResult{$\texttt{MC\_noCV}$, Option Premium}
-	\textit{First use the in-built function \emph{\texttt{randn}} in MATLAB to initiate a $3 \times N$ matrix.} \\
-	\textit{Each column of the matrix corresponds to the values of $x$ for the 3 assets in the portfolio}\\
-	$c_{\text{DC}} = e^{-rT} N(x)$\;
+	\textit{First use the in-built function \emph{\texttt{randn}} in MATLAB to initiate a $3 \times N$ matrix \emph{$\mathbf{R}$.}} \\
+	\textit{Each column of the matrix corresponds to the values of $x$ for the 3 assets in the portfolio.} \\
+	$\mathbf{R} = \texttt{randn(3, N)}$\;
+	\textit{Use Cholesky factorization to obtain a triangular matrix from the correlation matrix $C$} \\
+	\textit{The in-build function \emph{\texttt{chol}} in MATLAB will lead to an upper triangular matrix.} \\
+	$\mathbf{L} = \texttt{chol}(\mathbf{C})$ \;
+	$\mathbf{E} =\mathbf{R}^T \mathbf{L} $ \;
+	
+	\textit{Construct the row matrix $\mathbf{p}$ for expected price.} \\
+	\For {$j = 1,2,3$}{
+		$\pmb{\mu}_j = r - \mathbf{q}_{j} - \frac{\pmb{\sigma}_{j}^2}{2}$ \;
+		$\mathbf{p}_{j} = S_0 e^{\pmb{\mu}_jT}$ \;
+	}
+	\textit{Replicate the row matrices $\pmb{\sigma}$ and $\mathbf{p}$ into $N \times 3$ matrices $\mathbf{S}$ and $\mathbf{P}$} \\
+	$\mathbf{S} = \texttt{repmat}(\pmb{\sigma}, N, 1)$ \;
+	$\mathbf{P} = \texttt{repmat}(\mathbf{p}, N, 1)$ \;
+	
+	\textit{Thence, obtain the simulated terminal prices for the three assets, in an $N \times 3$ matrix $\mathbf{S}_T$.} \\
+	\For {$i = 1 \dots N$}{
+		\For {$j = 1,2,3$}{
+			$w_{i,j} = \mathbf{S}_{i,j} \times \mathbf{E}_{i,j}$ \;
+			$(\mathbf{S}_T)_{i,j} = \mathbf{p}_{i,j} \times\exp(w_{i,j}\sqrt{T})$
+		}
+	}
+	
+	\textit{Filter into a column matrix \emph{\texttt{max\_prices}} with only the maximum terminal prices in each sample.} \\
+	$\texttt{max\_prices} = \texttt{max}(\mathbf{S}_T, \texttt{[]}, \texttt{2})$\;
+	\textit{Filter out those in \emph{\texttt{max\_prices}} that are no more than strike $X$ into a column matrix \emph{\texttt{option\_values}}} \\
+	$\texttt{option\_values} = (\texttt{max\_prices} > X)$ \;
+	\textit{Finally, obtain the option value by discounting the average of the filtered terminal prices.} \\
+	$\texttt{MC\_noCV} = \texttt{mean}(\texttt{option\_values}) \times e^{-rT}$ \;
+	
 \end{algorithm}
 
 \subsection{Results from different number of price-path bundles and Comment}
