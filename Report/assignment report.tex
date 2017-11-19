@@ -310,23 +310,23 @@ Next up, we implemented the Monte Carlo simulation algorithm for estimating the 
 
 \subsection{Results from different number of price-path bundles and Comment}
 
-Using the set of parameters, we obtain the following results in one of runs:
+Using the set of parameters, with the number of price-path bundles at 100, 1000, 10000, and 100000, and each round running 30 times of simulations, we obtain the following results in one of runs:
 
 \begin{center}
 	\begin{tabular}{| c | c | c | c |}
 		\hline $X$ & $N$ & Option price estimate & Standard errors\\
 		[0.5ex]
-		\hline 8.5 & 30 & 0.86687 & 0.042158\\
+		\hline 8.5 & 100 & 0.88325 & 0.027956\\
 		\hline 8.5 & 1000 & 0.87561 & 0.0095148\\
 		\hline 8.5 & 10000 & 0.87745 & 0.0028249\\
 		\hline 8.5 & 100000 & 0.87833 & 0.00081011\\
 		\hline
-		\hline 9.5 & 30 & 0.7149 & 0.089602\\
+		\hline 9.5 & 100 & 0.70923 & 0.053627\\
 		\hline 9.5 & 1000 & 0.71379 & 0.014814\\
 		\hline 9.5 & 10000 & 0.71402 & 0.0033345\\
 		\hline 9.5 & 100000 & 0.71369 & 0.0013023\\
 		\hline
-		\hline 10.5 & 30 & 0.51049 & 0.088169\\
+		\hline 10.5 & 100 & 0.51114 & 0.058064\\
 		\hline 10.5 & 1000 & 0.50082 & 0.013599\\
 		\hline 10.5 & 10000 & 0.50434 & 0.0038309\\
 		\hline 10.5 & 100000 & 0.50371 & 0.0013951\\
@@ -334,12 +334,75 @@ Using the set of parameters, we obtain the following results in one of runs:
 	\end{tabular}
 \end{center}
 
-From the option price estimate for different strike prices, we do not observe an explicit overall increasing or decreasing trend. However, as $N$ gets larger, the change in estimated option price compared to the previous value of $N$ gets to decrease. 
+The option price estimate decreases for increase in value of $X$ for same values of $N$. This is explained by the pricing formula of the digital call option, where the value of $\dfrac{\partial c}{\partial X}$ is negative.
 
-This trend is more evidenced in the value of standard errors, which effectively decreased from smaller values of $N$ to larger values. Each time when $N$ increased by $10$ times, the value of standard errors is lowered to approximately between $\dfrac{1}{4}$ to $\dfrac{1}{3}$ of the previous value, which is similar to the value of $\dfrac{1}{\sqrt{10}}$.
+From the option price estimate for different strike prices, we do not observe an explicit overall increasing or decreasing trend within the same strike price. However, as $N$ gets larger, the change in estimated option price compared to the previous value of $N$ gets to decrease. 
+
+This trend in the variance of the estimated values is more evidenced in the measurements of standard errors, which effectively decreased from smaller values of $N$ to larger values within the same strike price. Each time when $N$ increased by $10$ times, the value of standard errors is lowered to approximately between $\dfrac{1}{4}$ to $\dfrac{1}{3}$ of the previous value, which is similar to the value of $\dfrac{1}{\sqrt{10}}$.
 
 
 \subsection{Variance Control and Effectiveness}
+\subsubsection{Algorithm}
 
+\subsubsection{Results}
+Using the set of parameters and the control variate algorithm, with the number of price-path bundles at 100, 1000, 10000, and 100000, and each round running 30 times of simulations, we obtain the following results in one of runs:
+
+\begin{center}
+	\begin{tabular}{| c | c | c | c |}
+		\hline $X$ & $N$ & Option price estimate & Standard errors\\
+		[0.5ex]
+		\hline 8.5 & 100 & 0.88306 & 0.025456\\
+		\hline 8.5 & 1000 & 0.87657 & 0.0051477\\
+		\hline 8.5 & 10000 & 0.87712 & 0.0020541\\
+		\hline 8.5 & 100000 & 0.87799 & 0.00061896\\
+		\hline
+		\hline 9.5 & 100 & 0.71548 & 0.02331\\
+		\hline 9.5 & 1000 & 0.71364 & 0.009802\\
+		\hline 9.5 & 10000 & 0.7145 & 0.0026296\\
+		\hline 9.5 & 100000 & 0.71406 & 0.00099822\\
+		\hline
+		\hline 10.5 & 100 & 0.49626 & 0.031181\\
+		\hline 10.5 & 1000 & 0.50429 & 0.0094252\\
+		\hline 10.5 & 10000 & 0.50457 & 0.0034628\\
+		\hline 10.5 & 100000 & 0.50401 & 0.00086008\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsubsection{Comments}
+Using Monte Carlo simulation with control variate, we obtained results whose trends are to the previous runs with same set of parameters and without control variate. The similarity is in terms of:
+\begin{itemize}
+	\item Option premium converges with less variation as $N$ increases;
+	\item The option premium decreases with increase in $X$; 
+	\item The standard error of the results decreases for increase in $N$ within the same $X$. 
+\end{itemize}
+
+However compared to the runs with the same $X$ and same $N$ without control variate, we can see that the option premium estimates are of similar values, and the standard errors decreases. 
+
+The following table summarizes the change in standard errors from methods with control variate and without control variate:
+
+\begin{center}
+	\begin{tabular}{| c | c | c | c |}
+		\hline $X$ & $N$ & Standard errors & Standard errors\\ 
+		           & &WITHOUT control variate  & WITH control variate \\
+		[0.5ex]
+		\hline 8.5 & 100 & 0.027956 & 0.025456\\
+		\hline 8.5 & 1000 & 0.0095148 & 0.0051477\\
+		\hline 8.5 & 10000 & 0.0028249 & 0.0020541\\
+		\hline 8.5 & 100000 & 0.00081011 & 0.00061896\\
+		\hline
+		\hline 9.5 & 100 & 0.053627 & 0.02331\\
+		\hline 9.5 & 1000 & 0.014814 & 0.009802\\
+		\hline 9.5 & 10000 & 0.0033345 & 0.0026296\\
+		\hline 9.5 & 100000 & 0.0013023 & 0.00099822\\
+		\hline
+		\hline 10.5 & 100 & 0.058064 & 0.031181\\
+		\hline 10.5 & 1000 & 0.013599 & 0.0094252\\
+		\hline 10.5 & 10000 & 0.0038309 & 0.0034628\\
+		\hline 10.5 & 100000 & 0.0013951 & 0.00086008\\
+		\hline
+	\end{tabular}
+\end{center}
+We can see evident reduction in the standard errors of the results across all set of values of $X$ and $N$, when control variate is applied compared to when it is not.
 
 \end{document}
