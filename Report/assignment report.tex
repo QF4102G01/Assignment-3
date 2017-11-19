@@ -343,11 +343,40 @@ This trend in the variance of the estimated values is more evidenced in the meas
 
 \subsection{Variance Control and Effectiveness}
 \subsubsection{Algorithm}
-\begin{algorithm}[H]
-\setstretch{1.5}
-	\KwData{$S_0$, $X$, $r$, $q$, $T$, $\sigma$, $C$, $N$}
-	\KwResult{$\texttt{MC\_noCV}$, Option Premium}
-\end{algorithm}
+\begin{itemize}
+	\item \textbf{Inputs:} $S_0$, $X$, $r$, $q$, $T$, $\sigma$, $C$, $N$
+	\item \textbf{Output:} $\texttt{MC\_CV}$, Option Premium
+	\item \textbf{Initiation: }\\ \vspace{1mm}
+	$F_1 = \texttt{BS\_DigitalCall}(S_0^1, X, r, q_1, T, \sigma_1)$; \\ \vspace{1mm}
+	$F_2 = \texttt{BS\_DigitalCall}(S_0^2, X, r, q_2, T, \sigma_2)$; \\ \vspace{1mm}
+	$F_3 = \texttt{BS\_DigitalCall}(S_0^3, X, r, q_3, T, \sigma_3)$; \\ \vspace{1mm}
+	$\bar{F} = \dfrac{F_1+F_2+F_3}{3}$
+	
+	\item Pilot simulation using the same Monte Carlo simulation method but for only $\dfrac{1}{5}$ of original sample size, to obtain $\beta$. The results of interest are:
+	\begin{itemize}
+	\item \texttt{pilotOptionValues}: the vector containing the simulated 3-asset digital call option values using samples in the pilot simulation; 
+	\item \texttt{pilotBasketValues}: the vector of the mean digital call option value on each single asset in all samples in the pilot simulation.
+	\end{itemize}
+	\item Hence with the result, we can obtain $\beta$ by:
+	\begin{itemize}
+		\item First obtain the covariance matrix between the option values and the basket values by \\ \vspace{1mm} $\mathbf{C^{*}}$ = \texttt{cov}(\texttt{pilotOptionValues}, \texttt{pilotBasketValues})
+		\item We would have:
+	  \[\mathbf{C^{*}} =\begin{bmatrix}
+		\sigma_{o}^2 & \sigma_{o,b} \\
+		\sigma_{o,b} & \sigma_{b}^2
+		\end{bmatrix} \]
+		where $\sigma_{o}^2$ and $\sigma_{b}^2$ are the variance of the option values and the basket values respectively, and $\sigma_{o,b}$ is the covariance between option values and basket values.
+		\item We hence could have an estimate for $\beta$ to use: $$\beta = \dfrac{\sigma_{o,b}}{\sigma_{b}^2}$$
+	\end{itemize}
+	\item Followed that, we carry out the actual computation for the final option value using the $\beta$ obtained.
+	\item After obtaining the terminal stock price matrix $\mathbf{S}_T$, we also obtain the vectors for the 3-asset option values and the mean call option values for all samples.
+	\begin{itemize}
+		\item \texttt{optionValues}: the vector containing the simulated 3-asset digital call option values in the full simulation;
+		\item \texttt{basketValues}: the vector containing the mean digital call option value on each single asset in all samples in the full simulation;
+	\end{itemize}
+	\item Then we have the vector \texttt{controlledOptionValues} obtained as $$\texttt{controlledOptionValues} = \texttt{optionValues} - \beta(\texttt{basketValues} - \bar{F})$$
+	\item Taking the mean of the \texttt{controlledOptionValues} vector, we have the final option value $$\texttt{MC\_CV} = \texttt{mean}(\texttt{controlledOptionValues})$$
+\end{itemize}
 
 \subsubsection{Results}
 Using the set of parameters and the control variate algorithm, with the number of price-path bundles at 100, 1000, 10000, and 100000, and each round running 30 times of simulations, we obtain the following results in one of runs:
