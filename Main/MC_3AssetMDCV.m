@@ -27,7 +27,7 @@ function optionValue = MC_3AssetMDCV(S0, X, sigma, C, r, q, T, no_samples)
     pilotDigitalValues = (pilotST > X) * exp(-r * T);
     pilotBasketValues = mean(pilotDigitalValues, 2);
     covariances = cov(pilotOptionValues, pilotBasketValues);
-    beta = covariances(1,2) / covariances(1,1);
+    beta = covariances(1,2) / covariances(2,2);
 	rho = covariances(1,2) / sqrt(covariances(1,1) * covariances(2,2))
 
     % Actual computation for the final option value
