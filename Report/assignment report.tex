@@ -73,7 +73,7 @@ Consider the \textbf{transformed} Black-Scholes PDE model:
 \end{equation*}
 
 \subsection{Derivation of fully implicit scheme}
-Evaluate partial derivatives at $(x_{n}^{i}, t_{n})$ where $t_{n} = n\Delta t, x_{n}^{i} = i\Delta x, n \in [0, \frac{T}{\Delta t}), i \in [-x_{max}, x_{max}], I_{max} = \frac{x_{max}}{\Delta x}$
+Evaluate partial derivatives at $(x_{n}^{i}, t_{n})$ where $t_{n} = n\Delta t, x_{n}^{i} = i\Delta x, n \in [0, \frac{T}{\Delta t}), x \in [-x_{max}, x_{max}], I = \frac{x_{max}}{\Delta x}$
 $$ \text{Use the forward time finite difference formulae : } \left. \frac{\partial u}{\partial t} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n+1}^{i} - u_{n}^{i}}{\Delta t} + O(\Delta t)$$
 $$ \text{Use the centred space finite difference formulae : } \left. \frac{\partial u}{\partial x} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n}^{i+1} - u_{n}^{i-1}}{2\Delta x} + O[(\Delta x)^{2}]$$
 $$ \text{Use the centred space finite difference formulae : } \left. \frac{\partial^{2} u}{\partial x^{2}} \right| _{(x_{n}^{i}, t_{n})} = \frac{u_{n}^{i+1} - 2u_{n}^{i} + u_{n}^{i-1}}{(\Delta x)^{2}} + O[(\Delta x)^{2}]$$
@@ -87,13 +87,13 @@ $$ U_{n+1}^{i} = U_{n}^{i} (1+ r \Delta t) - \frac{\Delta t}{2(\Delta x)^{2}}[\s
 
 
 $$ U_{n+1}^{i} = U_{n}^{i-1}[\frac{\Delta t(r - q - \frac{\sigma^{2}}{2})}{2\Delta x} -\frac{\sigma^{2}\Delta t}{2(\Delta x)^{2}}] + U_{n}^{i} [1+ r \Delta t + \frac{\sigma ^ {2} \Delta t}{(\Delta x)^{2}}] + U_{n}^{i+1}[- \frac{\Delta t(r - q - \frac{\sigma^{2}}{2})}{2\Delta x} -\frac{\sigma^{2}\Delta t}{2(\Delta x)^{2}} ]$$
-$$ U_{n+1}^{i} = aU_{n}^{i-1}+ bU_{n}^{i} + cU_{n}^{i+1} , \forall I_{min}+1 \le i \le I_{max}-1$$
+$$ U_{n+1}^{i} = aU_{n}^{i-1}+ bU_{n}^{i} + cU_{n}^{i+1} , \forall -I+1 \le i \le I-1$$
 \hspace*{100pt} where $a = \gamma-\frac{\alpha}{2}, b = \beta + \alpha, c = -\gamma-\frac{\alpha}{2}, \alpha = \frac{\sigma^{2}\Delta t}{(\Delta x)^{2}}, \beta = 1+ r \Delta t, \gamma = \frac{\Delta t(r - q - \frac{\sigma^{2}}{2})}{2\Delta x}$\\[3mm]
 The boundary conditions are as follows:\\
-$$U_{n}^{I_{max}} = e^{-q(T-n \Delta t)}\exp(I_{max}\Delta x) - e^{-r(T-n \Delta t)}X \text{, when the underlying value is very large at} \exp(I_{max}\Delta x)$$
-$$U_{n}^{I_{min}} = 0\text{, when the underlying value is very small at} \exp(I_{min}\Delta x)$$
+$$U_{n}^{I} = e^{-q(T-n \Delta t)}\exp(I\Delta x) - e^{-r(T-n \Delta t)}X \text{, when the underlying value is very large at} \exp(I\Delta x)$$
+$$U_{n}^{-I} = 0\text{, when the underlying value is very small at} \exp(-I\Delta x)$$
 \newpage
-With the values of $U_{n}^{I_{min}}$ and $U_{n}^{I_{max}}$ specified, we can express the FDE into matrix form.
+With the values of $U_{n}^{-I}$ and $U_{n}^{I}$ specified, we can express the FDE into matrix form.
 \[
 \begin{bmatrix}
     b & c & \dots & \dots  & \dots & \dots & \dots\\
@@ -105,32 +105,32 @@ With the values of $U_{n}^{I_{min}}$ and $U_{n}^{I_{max}}$ specified, we can exp
     \dots & \dots & \dots & \dots & \dots & a & b\\
 \end{bmatrix}
 \begin{bmatrix}
-    U_{n}^{I_{min}+1}\\
-    U_{n}^{I_{min}+2}\\
-    U_{n}^{I_{min}+3}\\
+    U_{n}^{-I+1}\\
+    U_{n}^{-I+2}\\
+    U_{n}^{-I+3}\\
     \dots \\
-    U_{n}^{I_{max}-3}\\
-    U_{n}^{I_{max}-2}\\
-    U_{n}^{I_{max}-1}
+    U_{n}^{I-3}\\
+    U_{n}^{I-2}\\
+    U_{n}^{I-1}
 \end{bmatrix}
 =
 \begin{bmatrix}
-    U_{n+1}^{I_{min}+1}\\
-    U_{n+1}^{I_{min}+2}\\
-    U_{n+1}^{I_{min}+3}\\
+    U_{n+1}^{-I+1}\\
+    U_{n+1}^{-I+2}\\
+    U_{n+1}^{-I+3}\\
     \dots \\
-    U_{n+1}^{I_{max}-3}\\
-    U_{n+1}^{I_{max}-2}\\
-    U_{n+1}^{I_{max}-1}
+    U_{n+1}^{I-3}\\
+    U_{n+1}^{I-2}\\
+    U_{n+1}^{I-1}
 \end{bmatrix}
 +
 \begin{bmatrix}
-    -aU_{n}^{I_{min}}\\
+    -aU_{n}^{-I}\\
     0\\
     \vdots \\
     \vdots \\
     0\\
-    -cU_{n}^{I_{max}}
+    -cU_{n}^{I}
 \end{bmatrix}
 \]
 
@@ -141,7 +141,7 @@ More concisely, we can name the tridiagonal matrix $A$ and the right hand side v
 \begin{algorithm}[H]
 \setstretch{1.5}
 	\KwData{$S_0$, $X$, $r$, $T$, $\sigma$, $I$, $N$, $x_{max}$}
-	\KwResult{$c_{\text{IDS}}$, Option Premium}
+	\KwResult{$c_{\text{IDS}}$: Option Premium}
 	$\Delta t = \dfrac{T}{N}$, 
 	$\Delta x = \dfrac{x_{max}}{I}$\;
 	$\alpha = \frac{\Delta t(r - q - \frac{\sigma^{2}}{2})}{2\Delta x}$\;
@@ -162,8 +162,8 @@ More concisely, we can name the tridiagonal matrix $A$ and the right hand side v
 		Generate a vector $F$ of length $(2I-1)$, with $F_{2I-1} = c\exp(-r(T-j \Delta t))(S_{max} - X)$, $F_{i} = 0$ otherwise\;
 		$U_{j} = A^{-1} (U_{j+1} + F)$\;
 	}
-	$i_0 = round \left (\dfrac{\ln{S_0}}{\Delta x} \right )$\;
-	$c_{\text{IDS}} = U_0^{i_0}$\;
+	$i_0 = floor \left (\dfrac{\ln{S_0}}{\Delta x} \right )$\;
+	$c_{\text{IDS}}$ is interpolated between $U_{0}^{i_{0}}$ and $U_{0}^{i_{0}+1}$\;
 	
 \end{algorithm}
 
@@ -254,7 +254,7 @@ From figure 4, it is obvious that the option value converges to the true value a
 
 \section{Valuation of digital call option}
 
-\subsection{Pricing Algorithm of digital call option}
+\subsection{Pricing Formula of digital call option}
 
 First, we implemented the function \texttt{BS\_DigitalCall(S0, X, r, q,  T, sigma)} for pricing the digital call option given:
 
@@ -279,8 +279,8 @@ Next up, we implemented the Monte Carlo simulation algorithm for estimating the 
 	$\mathbf{R} = \texttt{randn(3, N)}$\;
 	\textit{Use Cholesky factorization to obtain a triangular matrix from the correlation matrix $C$} \\
 	\textit{The in-build function \emph{\texttt{chol}} in MATLAB will lead to an upper triangular matrix.} \\
-	$\mathbf{L} = \texttt{chol}(\mathbf{C})$ \;
-	$\mathbf{E} =\mathbf{R}^T \mathbf{L} $ \;
+	$\mathbf{U} = \texttt{chol}(\mathbf{C})$ \;
+	$\mathbf{E} =\mathbf{R}^T \mathbf{U} $ \;
 	
 	\textit{Construct the row matrix $\mathbf{p}$ for expected price.} \\
 	\For {$j = 1,2,3$}{
