@@ -4,6 +4,7 @@
 % under a transformed Black-Scholes PDE model
 
 function OptVal = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega)
+    % Initiate parameters for IDS
 	deltaT = T / N;
 	deltaX = xmax / I;
     alpha = sigma ^ 2 * deltaT / (deltaX ^ 2);
@@ -13,6 +14,7 @@ function OptVal = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon,
 	b = beta + alpha;
 	c = -gamma - alpha / 2;
 	
+	% Terminal value calculation
     optionPayoffs = transpose(max(exp(deltaX * (-I+1 : I-1)) - X, 0));
 	U = optionPayoffs;
 	
@@ -20,6 +22,7 @@ function OptVal = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon,
 		U = PSOR(a, b, c, U, U, epsilon, omega, optionPayoffs, 2*I-1);
 	end
 	
+	% Interpolate between two adjacent nods
 	i0 = round(log(S0) / deltaX, 0) + I;
     S0down = exp((i0 - I) * deltaX);
     S0up = exp((i0 - I + 1) * deltaX);
@@ -34,9 +37,12 @@ function v = PSOR(a, b, c, initial_guess, Vplus, epsilon, omega, phi, Imax)
     oldV = initial_guess;
     newV = oldV;
     while ~converged
+		% alpha = 0, beta = 1, gamma = 0
         psi = Vplus;
         for i = 2 : Imax - 1
+			% a, b, c do not vary for different values of i
             newV(i) = (psi(i) - a * newV(i-1) - c * oldV(i+1)) / b;
+			% Max against the intrinsic values of option
             newV(i) = max(omega * newV(i) + (1 - omega) * oldV(i), phi(i));
         end
         if norm(newV - oldV) < epsilon
