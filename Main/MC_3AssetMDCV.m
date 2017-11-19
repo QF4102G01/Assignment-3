@@ -21,13 +21,23 @@ function optionValue = MC_3AssetMDCV(S0, X, sigma, C, r, q, T, no_samples)
     
     pilotST = price_augmented .* exp(sqrt(T) .* sigma_augmented .* correlatedRand);
 
+    % Obtain the vectors for option values and basket values from the pilot
+    % simulation
     max_prices = max(pilotST, [], 2);
     pilotOptionValues = (max_prices > X) * exp(-r * T);
-    
     pilotDigitalValues = (pilotST > X) * exp(-r * T);
     pilotBasketValues = mean(pilotDigitalValues, 2);
+    .
+    % Obtain the 2*2 covariance matrix between pilot option values and
+    % basket values of the pilot simuation
     covariances = cov(pilotOptionValues, pilotBasketValues);
+    
+    % The beta would be the ratio of covariance between pilot 3-asset option values
+    % and the variance of the basket values of the pilot simulation.
     beta = covariances(1,2) / covariances(2,2);
+    
+    % Rho is the correlation between the basket values and the 3-asset
+    % option values
 	rho = covariances(1,2) / sqrt(covariances(1,1) * covariances(2,2));
 
     % Actual computation for the final option value
@@ -42,10 +52,19 @@ function optionValue = MC_3AssetMDCV(S0, X, sigma, C, r, q, T, no_samples)
 
     max_prices = max(ST, [], 2);
     optionValues = (max_prices > X) * exp(-r * T);
+    
+    % Instead of proceeding with calculating the mean of the option values, 
+    % we first obtain the basket values of the full simulation as the
+    % control variate.
     digitalValues = (ST > X) * exp(-r * T);
     basketValues = mean(digitalValues, 2);
+    
+    % Then we compute the controlled option values vector with control
+    % variate and the beta
     controlledOptionValues = optionValues - beta * (basketValues - expectedBasketValue);
     
+    % The final option value would be the mean of the controlled option
+    % values
     optionValue = mean(controlledOptionValues);
     
 end
