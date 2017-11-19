@@ -343,6 +343,11 @@ This trend in the variance of the estimated values is more evidenced in the meas
 
 \subsection{Variance Control and Effectiveness}
 \subsubsection{Algorithm}
+\begin{algorithm}[H]
+\setstretch{1.5}
+	\KwData{$S_0$, $X$, $r$, $q$, $T$, $\sigma$, $C$, $N$}
+	\KwResult{$\texttt{MC\_noCV}$, Option Premium}
+\end{algorithm}
 
 \subsubsection{Results}
 Using the set of parameters and the control variate algorithm, with the number of price-path bundles at 100, 1000, 10000, and 100000, and each round running 30 times of simulations, we obtain the following results in one of runs:
@@ -351,20 +356,20 @@ Using the set of parameters and the control variate algorithm, with the number o
 	\begin{tabular}{| c | c | c | c |}
 		\hline $X$ & $N$ & Option price estimate & Standard errors\\
 		[0.5ex]
-		\hline 8.5 & 100 & 0.88306 & 0.025456\\
-		\hline 8.5 & 1000 & 0.87657 & 0.0051477\\
-		\hline 8.5 & 10000 & 0.87712 & 0.0020541\\
-		\hline 8.5 & 100000 & 0.87799 & 0.00061896\\
+		\hline 8.5 & 100 & 0.88306 & 0.026009\\
+		\hline 8.5 & 1000 & 0.87657 & 0.0059658\\
+		\hline 8.5 & 10000 & 0.87712 & 0.0015879\\
+		\hline 8.5 & 100000 & 0.87799 & 0.00058616\\
 		\hline
-		\hline 9.5 & 100 & 0.71548 & 0.02331\\
-		\hline 9.5 & 1000 & 0.71364 & 0.009802\\
-		\hline 9.5 & 10000 & 0.7145 & 0.0026296\\
-		\hline 9.5 & 100000 & 0.71406 & 0.00099822\\
+		\hline 9.5 & 100 & 0.71548 & 0.025147\\
+		\hline 9.5 & 1000 & 0.71364 & 0.0061404\\
+		\hline 9.5 & 10000 & 0.7145 & 0.0025493\\
+		\hline 9.5 & 100000 & 0.71406 & 0.0005965\\
 		\hline
-		\hline 10.5 & 100 & 0.49626 & 0.031181\\
-		\hline 10.5 & 1000 & 0.50429 & 0.0094252\\
-		\hline 10.5 & 10000 & 0.50457 & 0.0034628\\
-		\hline 10.5 & 100000 & 0.50401 & 0.00086008\\
+		\hline 10.5 & 100 & 0.49626 & 0.028081\\
+		\hline 10.5 & 1000 & 0.50429 & 0.0069935\\
+		\hline 10.5 & 10000 & 0.50457 & 0.002156\\
+		\hline 10.5 & 100000 & 0.50401 & 0.00039769\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -382,27 +387,40 @@ However compared to the runs with the same $X$ and same $N$ without control vari
 The following table summarizes the change in standard errors from methods with control variate and without control variate:
 
 \begin{center}
-	\begin{tabular}{| c | c | c | c |}
-		\hline $X$ & $N$ & Standard errors & Standard errors\\ 
-		           & &WITHOUT control variate  & WITH control variate \\
+	\begin{tabular}{| c | c | c | c | c |}
+		\hline $X$ & $N$ & Standard errors & Standard errors & Percentage of original\\ 
+		           & &WITHOUT control variate  & WITH control variate &\\
 		[0.5ex]
-		\hline 8.5 & 100 & 0.027956 & 0.025456\\
-		\hline 8.5 & 1000 & 0.0095148 & 0.0051477\\
-		\hline 8.5 & 10000 & 0.0028249 & 0.0020541\\
-		\hline 8.5 & 100000 & 0.00081011 & 0.00061896\\
+		\hline 8.5 & 100 & 0.027956 & 0.026009 & 0.9304\\
+		\hline 8.5 & 1000 & 0.0095148 & 0.0059658 & 0.6270\\
+		\hline 8.5 & 10000 & 0.0028249 & 0.0015879 & 0.5621\\
+		\hline 8.5 & 100000 & 0.00081011 & 0.00058616 & 0.7235\\
 		\hline
-		\hline 9.5 & 100 & 0.053627 & 0.02331\\
-		\hline 9.5 & 1000 & 0.014814 & 0.009802\\
-		\hline 9.5 & 10000 & 0.0033345 & 0.0026296\\
-		\hline 9.5 & 100000 & 0.0013023 & 0.00099822\\
+		\hline 9.5 & 100 & 0.053627 & 0.025147 & 0.4689\\
+		\hline 9.5 & 1000 & 0.014814 & 0.0061404 & 0.4144\\
+		\hline 9.5 & 10000 & 0.0033345 & 0.0025493 & 0.7645\\
+		\hline 9.5 & 100000 & 0.0013023 & 0.0005965 & 0.4580\\
 		\hline
-		\hline 10.5 & 100 & 0.058064 & 0.031181\\
-		\hline 10.5 & 1000 & 0.013599 & 0.0094252\\
-		\hline 10.5 & 10000 & 0.0038309 & 0.0034628\\
-		\hline 10.5 & 100000 & 0.0013951 & 0.00086008\\
+		\hline 10.5 & 100 & 0.058064 & 0.028081 & 0.4836\\
+		\hline 10.5 & 1000 & 0.013599 & 0.0069935 & 0.5142\\
+		\hline 10.5 & 10000 & 0.0038309 & 0.002156 & 0.5629\\
+		\hline 10.5 & 100000 & 0.0013951 & 0.00039769 & 0.2850\\
 		\hline
 	\end{tabular}
 \end{center}
 We can see evident reduction in the standard errors of the results across all set of values of $X$ and $N$, when control variate is applied compared to when it is not.
+
+From observation, the $\rho$, the estimated correlation coefficient between  the control variate and the option value for different strike prices are as follows:
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+	\hline $X$ & $\rho$ & $\sqrt{1-\rho^2}$\\
+	\hline 8.5 & 0.68 & 0.7332 \\
+	\hline 9.5 & 0.81 & 0.5864 \\
+	\hline 10.5 & 0.88 & 0.4750 \\
+	\hline
+	\end{tabular}
+\end{center}
+
+According to the lecture notes, the theoretical value of the standard error after control variate is applied would be reduced to $\sqrt{1-\rho^2}$ of that of the original values obtained without using control variate. From the data of standard errors before and after applying control variate, we could see the ratio of after-control-variate values to the original values for the same strike price, are clustering around the theoretical percentage predicted using the values of $\sqrt{1-\rho^2}$
 
 \end{document}
