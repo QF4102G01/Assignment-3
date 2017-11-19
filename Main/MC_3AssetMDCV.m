@@ -2,6 +2,8 @@
 % Group number: G01
 
 function optionValue = MC_3AssetMDCV(S0, X, sigma, C, r, q, T, no_samples)
+    % Initiate expected value of digital call option price for each of the
+    % 3 assets as well as the basket of the asset
     mu = r - q - sigma .^ 2. / 2;
     expectedDigital1 = BS_DigitalCall(S0(1), X, r, q(1), T, sigma(1));
     expectedDigital2 = BS_DigitalCall(S0(2), X, r, q(2), T, sigma(2));

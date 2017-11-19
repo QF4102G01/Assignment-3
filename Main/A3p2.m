@@ -9,11 +9,12 @@ r = 0.05;
 q = [0.01 0.04 0];
 T = 0.75;
 
-no_sampless = [30, 1000, 10000, 100000];
+no_sampless = [100, 1000, 10000, 100000];
 strikes = [8.5, 9.5, 10.5];
 
 simulation_run = 30;
 
+disp('Price estimate of Monte Carlo Simulation WITHOUT control variate.');
 for no_samples = no_sampless
     for X = strikes
         optionValues = 1 : simulation_run;
@@ -29,6 +30,8 @@ for no_samples = no_sampless
     end
 end
 
+disp('*********************');
+disp('Price estimate of Monte Carlo Simulation WITH control variate.');
 for no_samples = no_sampless
     for X = strikes
         optionValues = 1 : simulation_run;

@@ -39,4 +39,4 @@ for I = Is2
     fd_ids_results2(Is2 == I) = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega);
 end
 
-fd_ids_results2;
+plot(Is2, fd_ids_results2)
