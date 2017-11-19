@@ -9,10 +9,10 @@ function optionValue = MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
     
     % Use Cholesky factorization to produce a lower triangular from the
     % correlations matrix, since C is positive definite.
-    L = chol(C);
+    U = chol(C);
     
     % Generation of correlated random variables
-    correlatedRand = transpose(initialRand) * L;
+    correlatedRand = transpose(initialRand) * U;
     
     % Initiate the basic variables for pricing
     mu = r - q - sigma .^ 2. / 2;
