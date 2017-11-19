@@ -12,7 +12,7 @@ function optionValue = MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples)
     L = chol(C);
     
     % Generation of correlated random variables
-    correlatedRand = initialRand * L;
+    correlatedRand = transpose(initialRand) * L;
     
     % Initiate the basic variables for pricing
     mu = r - q - sigma .^ 2. / 2;
