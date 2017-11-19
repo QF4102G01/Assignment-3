@@ -13,8 +13,8 @@ function optionValue = MC_3AssetMDCV(S0, X, sigma, C, r, q, T, no_samples)
     % Pilot simulation to find beta of the control variate
     no_pilot_samples = no_samples / 5;
     initialRand = randn(3, no_pilot_samples);
-    L = chol(C);
-    correlatedRand = transpose(initialRand) * L;
+    U = chol(C);
+    correlatedRand = transpose(initialRand) * U;
     
     sigma_augmented = repmat(sigma, no_pilot_samples, 1);
     price_augmented = repmat(S0 .* exp(mu .* T), no_pilot_samples, 1);
