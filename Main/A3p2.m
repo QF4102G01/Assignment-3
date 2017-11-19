@@ -22,7 +22,6 @@ for no_samples = no_sampless
         for i = 1 : simulation_run
             optionValues(i) = MC_3AssetMD(S0, X, sigma, C, r, q, T, no_samples);
         end
-
         optionValue = mean(optionValues);
         standardError = std(optionValues);
         
