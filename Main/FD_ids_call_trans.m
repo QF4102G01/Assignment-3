@@ -1,7 +1,10 @@
-%Group members: Chen Penghao, Wang Zexin
-%Group number: G01
+% Group members: Chen Penghao, Wang Zexin
+% Group number: G01
+% Finite different scheme for European call option under a transformed 
+% Black-Scholes PDE model
 
 function OptVal = FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
+    % Initiate parameters for IDS
 	deltaT = T / N;
 	deltaX = xmax / I;
     alpha = sigma ^ 2 * deltaT / (deltaX ^ 2);

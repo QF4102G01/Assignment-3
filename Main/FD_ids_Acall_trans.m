@@ -1,5 +1,7 @@
 % Group members: Chen Penghao, Wang Zexin
 % Group number: G01
+% Finite Difference implicit difference scheme for American call option
+% under a transformed Black-Scholes PDE model
 
 function OptVal = FD_ids_Acall_trans(S0, X, r, q, T, sigma, I, N, xmax, epsilon, omega)
 	deltaT = T / N;

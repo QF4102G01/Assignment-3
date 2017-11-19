@@ -1,5 +1,6 @@
-%Group members: Chen Penghao, Wang Zexin
-%Group number: G01
+% Group members: Chen Penghao, Wang Zexin
+% Group number: G01
+% Skeleton codes of A3p2
 
 C = [[1 0.88 0.17]; [0.88 1 0.34]; [0.17 0.34 1]];
 S0 = [9.5 10.2 8.8];
@@ -8,7 +9,7 @@ r = 0.05;
 q = [0.01 0.04 0];
 T = 0.75;
 
-no_sampless = [100, 1000, 10000, 100000];
+no_sampless = [30, 1000, 10000, 100000];
 strikes = [8.5, 9.5, 10.5];
 
 simulation_run = 30;
