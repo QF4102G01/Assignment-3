@@ -25,6 +25,7 @@ function OptVal = FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
 	for j = N-1 : -1 : 0
 		% Adjust for the boundary conditions
 		U(2*I-1, 1) = U(2*I-1, 1) - c * (exp(-q*(N-j)*deltaT) * exp(xmax) - exp(-r*(N-j)*deltaT)*X);
+        
 		% Solve the linear system
         U = Ainverse * U;
 	end

@@ -39,12 +39,16 @@ function v = PSOR(a, b, c, initial_guess, Vplus, epsilon, omega, phi, Imax)
     while ~converged
 		% alpha = 0, beta = 1, gamma = 0
         psi = Vplus;
+        
         for i = 2 : Imax - 1
 			% a, b, c do not vary for different values of i
             newV(i) = (psi(i) - a * newV(i-1) - c * oldV(i+1)) / b;
+            
 			% Max against the intrinsic values of option
             newV(i) = max(omega * newV(i) + (1 - omega) * oldV(i), phi(i));
         end
+        
+        % Check for convergence, which is the stopping condition
         if norm(newV - oldV) < epsilon
             converged = true;
         end
