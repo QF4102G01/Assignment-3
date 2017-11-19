@@ -14,16 +14,22 @@ function OptVal = FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
 	b = beta + alpha;
 	c = -gamma - alpha / 2;
 	
+	% Terminal value calculation
 	U = transpose(max(exp(deltaX * (-I+1 : I-1)) - X, 0));
 	
+	% Generate a tridiagonal matrix with a, b and c on its diagonals
+	% Calculate its inverse beforehand to save computation cost
     A = full(gallery('tridiag', 2*I-1, a, b, c));
 	Ainverse = inv(A);
 	
 	for j = N-1 : -1 : 0
+		% Adjust for the boundary conditions
 		U(2*I-1, 1) = U(2*I-1, 1) - c * (exp(-q*(N-j)*deltaT) * exp(xmax) - exp(-r*(N-j)*deltaT)*X);
+		% Solve the linear system
         U = Ainverse * U;
 	end
 	
+	% Interpolate between two adjacent nods
 	i0 = round(log(S0) / deltaX, 0) + I;
     S0down = exp((i0 - I) * deltaX);
     S0up = exp((i0 - I + 1) * deltaX);
