@@ -254,8 +254,33 @@ From figure 4, it is obvious that the option value converges to the true value a
 
 \section{Valuation of digital call option}
 
-\subsection{Algo}
+\subsection{Pricing Algorithm of digital call option}
 
+First, we implemented the function \texttt{BS\_DigitalCall(S0, X, r, q,  T, sigma)} for pricing the digital call option given:
 
+\begin{algorithm}[H]
+\setstretch{1.5}
+	\KwData{$S_0$, $X$, $r$, $q$, $T$, $\sigma$}
+	\KwResult{$c_{\text{DC}}$, Option Premium}
+	$x = \dfrac{\log \left(\frac{S_0}{X}\right) + (r - q - \frac{\sigma^2}{2})T}{\sigma \sqrt{T}}$\;
+	$c_{\text{DC}} = e^{-rT} N(x)$\;
+\end{algorithm}
+
+\subsection{Implementation of Monte Carlo Simulation without control variate}
+
+Next up, we implemented the Monte Carlo simulation algorithm for estimating the 3-asset digital call option price, given the correlation matrix $C$ and the number of samples generated $N$, as well as the other parameters, $S_0$, $X$, $r$, $q$, $T$, same as those used in pricing of Digital Call option.
+
+\begin{algorithm}[H]
+\setstretch{1.5}
+	\KwData{$S_0$, $X$, $r$, $q$, $T$, $\sigma$, $C$, $N$}
+	\KwResult{$\texttt{MC\_noCV}$, Option Premium}
+	\textit{First use the in-built function \emph{\texttt{randn}} in MATLAB to initiate a $3 \times N$ matrix.} \\
+	\textit{Each column of the matrix corresponds to the values of $x$ for the 3 assets in the portfolio}\\
+	$c_{\text{DC}} = e^{-rT} N(x)$\;
+\end{algorithm}
+
+\subsection{Results from different number of price-path bundles and Comment}
+
+\subsection{Variance Control and Effectiveness}
 
 \end{document}
