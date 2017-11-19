@@ -1,3 +1,6 @@
+% Group members: Chen Penghao, Wang Zexin
+% Group number: G01
+
 function optionValue = MC_3AssetMDCV(S0, X, sigma, C, r, q, T, no_samples)
     mu = r - q - sigma .^ 2. / 2;
     expectedDigital1 = BS_DigitalCall(S0(1), X, r, q(1), T, sigma(1));

@@ -1,3 +1,6 @@
+%Group members: Chen Penghao, Wang Zexin
+%Group number: G01
+
 C = [[1 0.88 0.17]; [0.88 1 0.34]; [0.17 0.34 1]];
 S0 = [9.5 10.2 8.8];
 sigma = [0.35 0.21 0.18];

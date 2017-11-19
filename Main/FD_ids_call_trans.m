@@ -1,3 +1,6 @@
+%Group members: Chen Penghao, Wang Zexin
+%Group number: G01
+
 function OptVal = FD_ids_call_trans(S0, X, r, q, T, sigma, I, N, xmax)
 	deltaT = T / N;
 	deltaX = xmax / I;
